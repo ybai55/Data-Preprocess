@@ -6,7 +6,8 @@ Only for relax.
 
 ## Plan
 
-- [ ] Make the board
-- [ ] Make the chessman
+- [x] Make the board.
+    - [x] Make a board dict, for store piece on it.
+- [x] Make the chessman
 - [ ] Move the chessman
 - [ ] Set the chessman's rules
