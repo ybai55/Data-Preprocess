@@ -76,23 +76,23 @@ class ChineseChess:
         row = int(y // 57 + 1)
         col = int(x // 57 + 1)
         board_cor = str(row)+','+str(col)
-        print(board_cor)
-        if self.CUR_PIECE:
-            x, y = self.cvt_cor((col-1) * 57, (row-1) * 57)
-            piece = turtle.Turtle()
-            piece.shape(self.CUR_PIECE['bg'])
-            piece.penup()
-            piece.setpos(x, y)
-            print(row, col)
-            self.BOARD_COR[str(row) + ',' + str(col)] = self.CUR_PIECE
-            self.SCREEN.update()
-            self.CUR_PIECE = None
-
-        if board_cor in self.BOARD_COR:
-            if self.CUR_PIECE is None:
-                self.CUR_PIECE = self.BOARD_COR[str(row) + ',' + str(col)]
-                print(self.CUR_PIECE['name'])
-                self.IS_PIECE_UP = True
+        if self.IS_PIECE_UP is True:
+            if self.CUR_PIECE is not None:
+                x, y = self.cvt_cor((col-1) * 57, (row-1) * 57)
+                piece = turtle.Turtle()
+                piece.shape(self.CUR_PIECE['bg'])
+                piece.penup()
+                piece.setpos(x, y)
+                self.BOARD_COR[str(row) + ',' + str(col)] = self.CUR_PIECE
+                self.CUR_PIECE = None
+                self.SCREEN.update()
+                self.IS_PIECE_UP = False
+        else:
+            if board_cor in self.BOARD_COR:
+                if self.CUR_PIECE is None:
+                    self.CUR_PIECE = self.BOARD_COR[str(row) + ',' + str(col)]
+                    print(self.CUR_PIECE['name'])
+                    self.IS_PIECE_UP = True
 
 
     def print_cor(self, x, y):
