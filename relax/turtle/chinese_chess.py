@@ -76,16 +76,27 @@ class ChineseChess:
         row = int(y // 57 + 1)
         col = int(x // 57 + 1)
         board_cor = str(row)+','+str(col)
+        # TODO：要做棋盘更新。把旧的旗子去掉。
+        # TODO：要做子的限定。限定子不能走的位置。
         if self.IS_PIECE_UP is True:
+            print("piece up is true")
             if self.CUR_PIECE is not None:
-                x, y = self.cvt_cor((col-1) * 57, (row-1) * 57)
-                piece = turtle.Turtle()
-                piece.shape(self.CUR_PIECE['bg'])
-                piece.penup()
-                piece.setpos(x, y)
                 self.BOARD_COR[str(row) + ',' + str(col)] = self.CUR_PIECE
-                self.CUR_PIECE = None
+                # Remove last piece
+                x, y = self.cvt_cor((self.CUR_PIECE['col'] - 1) * 57, (self.CUR_PIECE['row'] - 1) * 57)
+                for item in self.SCREEN.turtles():
+                    if item.xcor() == x and item.ycor() == y:
+                        print("clear a turtle")
+                        # item.hideturtle()
+                        key = str(self.CUR_PIECE['row']) + ',' + str(self.CUR_PIECE['col'])
+                        # self.BOARD_COR.pop(key)
+
+                        x, y = self.cvt_cor((col - 1) * 57, (row - 1) * 57)
+                        item.penup()
+                        item.setpos(x, y)
+
                 self.SCREEN.update()
+                self.CUR_PIECE = None
                 self.IS_PIECE_UP = False
         else:
             if board_cor in self.BOARD_COR:
@@ -93,7 +104,6 @@ class ChineseChess:
                     self.CUR_PIECE = self.BOARD_COR[str(row) + ',' + str(col)]
                     print(self.CUR_PIECE['name'])
                     self.IS_PIECE_UP = True
-
 
     def print_cor(self, x, y):
         # print(x, y)
@@ -128,7 +138,7 @@ class ChineseChess:
             # 列对应x坐标变化， 行对应y坐标变化
             col = self.PIECES[item]['col'] - 1
             row = self.PIECES[item]['row'] - 1
-            x, y = self.cvt_cor( col * 57, row * 57)
+            x, y = self.cvt_cor(col * 57, row * 57)
             piece = turtle.Turtle()
             screen.addshape(self.PIECES[item]['bg'])
             piece.shape(self.PIECES[item]['bg'])
