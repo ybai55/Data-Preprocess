@@ -68,6 +68,9 @@ def kl_divergence(p1, p2):
     kl = 0
 
     # TODO -- Calculate KL divergence D_{KL}(p1||p2) in nats
+    # D(p, q) = Sigma_x p(x)log_b[p(x)/q(x)]  for in nats b=e.
+    for key in p1:
+        kl += p1[key] * math.log(p1[key] / p2[key], math.e)
 
     return kl
 
@@ -80,7 +83,14 @@ def js_divergence(p1, p2):
     js = 0
 
     # TODO -- Calculate JS divergence D_{JS}(p1||p2) in nats
-
+    # JSD(P||Q) = H[(P+Q) / 2] - [H(P) + H(Q)] / 2
+    H_p = entropy(p1)
+    H_q = entropy(p2)
+    pq = {}
+    for key in p1:
+        pq[key] = (p1[key] + p2[key]) / 2
+    H_pq = entropy(pq)
+    js = H_pq - (H_p + H_q) / 2
     return js
 
 
