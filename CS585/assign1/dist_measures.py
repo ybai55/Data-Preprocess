@@ -38,7 +38,10 @@ def entropy(p):
     h = 0
 
     # TODO -- Calculate entropy value in nats for probability distribution `p`
-
+    # H(X) = -Sigma_i P(X_i)log_b[P(X_i)]  for in nats b=e.
+    for idx in p:
+        h += p[idx] * math.log(p[idx], math.e)
+    h = -h
     return h
 
 
@@ -50,7 +53,10 @@ def cross_entropy(p1, p2):
     xh = 0
 
     # TODO -- Calculate cross-entropy value H(p1, p2) in nats
-
+    # H(X, q) = -Sigma_x p(x)log_b[q(x)]  for in nats b=e.
+    for idx in p1:
+        xh += p1[idx] * math.log(p2[idx], math.e)
+    xh = - xh
     return xh
 
 
