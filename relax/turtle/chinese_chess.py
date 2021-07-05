@@ -76,6 +76,8 @@ class ChineseChess:
         row = int(y // 57 + 1)
         col = int(x // 57 + 1)
         board_cor = str(row)+','+str(col)
+        print("----当前旗子位置----")
+        print('%s' % board_cor)
         # TODO：要做棋盘更新。把旧的旗子去掉。
         # TODO：要做子的限定。限定子不能走的位置。
         if self.IS_PIECE_UP is True:
@@ -83,17 +85,25 @@ class ChineseChess:
             if self.CUR_PIECE is not None:
                 self.BOARD_COR[str(row) + ',' + str(col)] = self.CUR_PIECE
                 # Remove last piece
-                x, y = self.cvt_cor((self.CUR_PIECE['col'] - 1) * 57, (self.CUR_PIECE['row'] - 1) * 57)
+                x_col, y_row = self.cvt_cor((self.CUR_PIECE['col'] - 1) * 57, (self.CUR_PIECE['row'] - 1) * 57)
                 for item in self.SCREEN.turtles():
-                    if item.xcor() == x and item.ycor() == y:
+                    if item.xcor() == x_col and item.ycor() == y_row:
                         print("clear a turtle")
                         # item.hideturtle()
                         key = str(self.CUR_PIECE['row']) + ',' + str(self.CUR_PIECE['col'])
-                        # self.BOARD_COR.pop(key)
+                        self.BOARD_COR.pop(key)
 
-                        x, y = self.cvt_cor((col - 1) * 57, (row - 1) * 57)
+                        new_x, new_y = self.cvt_cor((col - 1) * 57, (row - 1) * 57)
                         item.penup()
-                        item.setpos(x, y)
+                        item.setpos(new_x, new_y)
+                        row = int(y // 57 + 1)
+                        col = int(x // 57 + 1)
+                        new_board_cor = str(row) + ',' + str(col)
+                        self.BOARD_COR[new_board_cor] = self.CUR_PIECE
+                        self.BOARD_COR[new_board_cor]['row'] = row
+                        self.BOARD_COR[new_board_cor]['col'] = col
+                        print("----新旗子位置----")
+                        print('%s \n\n' % new_board_cor)
 
                 self.SCREEN.update()
                 self.CUR_PIECE = None
@@ -106,7 +116,6 @@ class ChineseChess:
                     self.IS_PIECE_UP = True
 
     def print_cor(self, x, y):
-        # print(x, y)
         self.cor_to_symbol(x, y)
 
     def board(self):
